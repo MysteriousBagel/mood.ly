@@ -9,22 +9,22 @@ export default db.define('User',
     password: {
       type: Sequelize.STRING,
       set:  function(v) {
-        let salt = bcrypt.genSaltSync(10);
-        let hash = bcrypt.hashSync(v, salt);
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(v, salt);
         this.setDataValue('password', hash);
       }
     },
-    salt: Sequelize.STRING,
+    // salt: Sequelize.STRING,
     facebookId: Sequelize.STRING,
     avatar: Sequelize.STRING
   },
   {
-    hooks: {
-      beforeCreate: function(user) {
-        user.salt = bcrypt.genSaltSync(10);
-        user.password = bcrypt.hashSync(user.password, user.salt);
-      }
-    },
+    // hooks: {
+    //   beforeCreate: function(user) {
+    //     user.salt = bcrypt.genSaltSync(10);
+    //     user.password = bcrypt.hashSync(user.password, user.salt);
+    //   }
+    // },
     instanceMethods: {
       comparePasswords: (inputPassword, callback) => {
         callback(bcrypt.compareSync(inputPassword, this.password));
